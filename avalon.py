@@ -205,7 +205,7 @@ def detect_configuration(command_text: str, prefix: str):
     command = command_text.lower() + " "
     skin, strings = Skins["AVALON"], StringSets["avalon-vi-base"]
     if any(f' {x} ' in command for x in ["sw", "starwars", "star wars"]):
-        strings = StringSets["avalon-en-starwars"]
+        strings = StringSets["avalon-vi-starwars"]
         skin = Skins["STARWARS"]
     elif any(f' {x} ' in command for x in ["gs", "guerre stellari"]):
         strings = StringSets["avalon-it-starwars"]
