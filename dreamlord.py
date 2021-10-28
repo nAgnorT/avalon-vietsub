@@ -10,6 +10,7 @@ from discord.errors import Forbidden
 from dotenv import load_dotenv
 
 from avalon import avalon, confirm
+from msgqueue import MsgQueue
 
 load_dotenv()
 
@@ -19,6 +20,7 @@ prefix = os.getenv("BOT_PREFIX", "+")
 game_string = "The Resistance - Avalon. Type " + \
     prefix + "help or " + prefix + "avalon to begin."
 game = discord.Game(name=game_string)
+customprefix=''
 
 
 @client.event
@@ -35,20 +37,31 @@ async def on_message(message):
         return
 
     command = message.content[len(prefix):]
+    phase =''
+    # change prefix
+    #*if command.startswith('prefix'):
+        #await confirm(message)
+        #await message.channel.send('Hãy nhập prefix bạn mong muốn')
+       # phase='Prefix'
+       # with MsgQueue(client=client, check=message.channel) as msgqueue:
+            #while phase=='Prefix':
+                #reply=msgqueue.nextmsg()
+
+
 
     # prefixed commands
     if command.startswith('hello'):
         await confirm(message)
-        msg = 'Greetings {0.author.mention}'.format(message)
+        msg = 'Chào {0.author.mention}'.format(message)
         await message.channel.send(msg)
 
     if command.startswith('avalon'):
         if message.channel in busyChannels:
-            await message.channel.send("Channel busy with another activity.")
+            await message.channel.send("Một ván chơi đã bắt đầu ở kênh này rồi.")
         elif not isinstance(message.channel, DMChannel):
             await confirm(message)
             busyChannels.append(message.channel)
-            await message.channel.send("Starting **The Resistance: Avalon - Discord Edition** in `#"+message.channel.name+"`...")
+            await message.channel.send("Đang Khởi động **The Resistance: Avalon - Discord Edition** ở `#"+message.channel.name+"`...")
             await avalon(client, message, prefix)
             busyChannels.remove(message.channel)
 
@@ -74,14 +87,14 @@ async def on_error(event, *args, **kwargs):
             isinstance(args[0], Message):
         message = args[0]
         await message.channel.send(
-            "```Error```\n:no_entry_sign: Insufficient permissions, I can't do it. Type `!help` for help."
+            "```Error```\n:no_entry_sign: Không đủ quyền, tôi không thể làm điều đó. Gõ `" + prefix + "help` để được hướng dẫn."
         )
     elif info[0] == TimeoutError and \
             event == "on_message" and \
             isinstance(args[0], Message):
         message = args[0]
         await message.channel.send(
-            "```Error```\n:alarm_clock: A timeout occurred. The game was canceled. You were inactive for too long."
+            "```Error```\n:alarm_clock: Đã xảy ra thời gian chờ. Trò chơi đã bị hủy. Bạn đã không hoạt động quá lâu."
         )
         busyChannels.remove(message.channel)
     else:
@@ -92,7 +105,7 @@ def run(token):
     try:
         client.loop.run_until_complete(client.start(token))
     except KeyboardInterrupt:
-        print('Interrupted - Shutting Down')
+        print('Bị gián đoạn - Đang tắt')
         client.loop.run_until_complete(client.change_presence(
             status=discord.Status.offline, activity=None))
     finally:

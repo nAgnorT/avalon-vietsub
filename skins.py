@@ -286,7 +286,7 @@ Skins = dict(
             p9=PlayerBaseItem("9_players_table.png"),
             p10=PlayerBaseItem("10_players_table.png")
         ),
-        font="medieval.ttf"
+        font="Pangolin-Regular.ttf"
     ),
     STARWARS=Skin(
         path="starwars",
@@ -341,6 +341,6 @@ Skins = dict(
             p9=PlayerBaseItem("9_players_table.png"),
             p10=PlayerBaseItem("10_players_table.png")
         ),
-        font="starjedi.ttf"
+        font="Pangolin-Regular.ttf"
     )
 )
