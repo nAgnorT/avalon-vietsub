@@ -55,7 +55,7 @@ async def on_message(message):
     if command.startswith('help'):
         # message.channel.send()
         await confirm(message)
-        await message.author.send('Please visit https://github.com/ldeluigi/avalon/blob/master/README.md to find out more.')
+        await message.author.send('CÁCH CHƠI CƠ BẢN (luôn cập nhật): https://docs.google.com/document/d/17vx8lhQskBFa89KvhZnCBJgF6S2KGJvZWJAJ3Rvc8n0/edit?usp=sharing \n\nCÁC LỆNH CƠ BẢN:\n\n`' + prefix + 'avalon` - Bắt đầu trò chơi với chế độ thông thường\n`' + prefix + 'avalon sw` - Bắt đầu trò chơi với chế độ Star Wars\n`' + prefix + 'help` - Hướng dẫn.\n`' + prefix + 'stop` - Kết thúc ván chơi\n`')
 
 
 @client.event
