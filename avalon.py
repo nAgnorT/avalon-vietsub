@@ -367,6 +367,15 @@ async def login_phase(client, message, gamestate):
                 else:
                     await deny(reply)
                     await message.channel.send(gamestate.t.failedUnjoinStr(reply.author.mention))
+            # SHOW PLAYERS COMMANDS
+            if gamestate.isCommand(reply.content, "players"):
+                await confirm(reply)
+                if len(gamestate.players) == 0:
+                    await message.channel.send("Chưa có người chơi nào tham gia trò chơi")
+                else:
+                    await message.channel.send("Đã có "+ str(len(gamestate.players)) +" người chơi đã tham gia bao gồm:")
+                    for i in gamestate.players:
+                        await message.channel.send(i.name)        
             # START COMMANDS
             if gamestate.isCommand(reply.content, "start") and len(gamestate.players) < 5:
                 await deny(reply)
